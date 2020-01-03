@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+        <a class="navbar-brand">Dilipkumar</a>
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div  class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li>
+                    <a class="navbar-brand" href=" {% url 'index' %} ">Django<span class="sr-only">(current)</span></a>
+                </li>
+                
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <li>
+                            <a class="nav-link" href=" {% url 'admin:index' %} ">Admin<span class="sr-only">(current)</span></a></a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="nav-link" href=" {% url 'special' %} ">Special<span class="sr-only">(current)</span></a></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=" {% url 'logout' %} ">Logout<span class="sr-only">(current)</span></a></a>
+                    </li>
+                   
+                {% else %}
+                    <li>
+                        <a class="nav-link" href=" {% url 'admin:index' %} ">Admin<span class="sr-only">(current)</span></a></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=" {% url 'basic_app:register' %} ">Register<span class="sr-only">(current)</span></a></a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=" {% url 'basic_app:user_login' %} ">Login<span class="sr-only">(current)</span></a></a>
+                    </li>
+                    
+                {% endif %}
+                
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container-fluid">
+        
+        {% block body_block %}
+            
+        {% endblock body_block %}
+            
+    </div>
+</body>
+</html>
