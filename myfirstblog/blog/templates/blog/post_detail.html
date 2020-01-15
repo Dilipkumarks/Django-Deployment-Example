@@ -1,0 +1,55 @@
+{% extends 'blog/base.html' %}  
+{% load static %}
+{% block content %}
+
+    <h1 class="posttitle loader">{{post.title}} </h1>
+    
+    {% if post.published_date %}
+        <div class="date postdate">
+            {{post.published_date}}
+        </div>
+    {% elif user.is_superuser %}
+        <a class="btn btn-outline-success" href="{%url 'post_publish' pk=post.pk %} ">Publish</a>
+    {% else %}
+        <p><strong><em> Note: Please Contact Admin to Publish/Edit Your Post..!</em></strong></p>
+    {% endif %}
+        <p class="postcontent">{{post.text|safe|linebreaksbr}}</p>
+    
+    
+    {% if user.is_superuser %}
+        <a class="btn btn-outline-primary" href="{% url 'post_edit' pk=post.pk %} ">
+            <img src="{% static 'images/Edit-64.png' %}" height="25" width="30" >
+        </a>
+        <a class="btn btn-outline-primary" href="{% url 'post_remove' pk=post.pk %} ">
+            <img src="{% static 'images/Trash-64.png' %}" height="25" width="30" >
+        </a>
+    
+    {% endif %}
+    <hr>
+        <a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %} ">Add Comment</a>   
+    <div class="container">
+        
+        {% for comment in post.comments.all %}
+             <br>
+             {% if user.is_authenticated or comment.approved_comment %}
+                
+                {{comment.created_date}}
+                <a class="btn btn-outline-primary" href="{% url 'comment_remove' pk=comment.pk %} ">
+                    <img src="{% static 'images/Trash-64.png' %}" height="25" width="30" >
+                </a> 
+                {% if not comment.approved_comment %}
+                    
+                    <a class="btn btn-outline-primary" href="{% url 'comment_approve' pk=comment.pk %} ">
+                        <img src="{% static 'images/Ok-64.png' %}" height="25" width="30" >
+                    </a> 
+                    
+                 {% endif %}
+                <p>{{comment.text|safe|linebreaksbr}}</p>
+                <p>Posted By:{{comment.author}} </p>
+             {% endif %}
+             {% empty %}
+             <p>No Comments.!</p>
+        {% endfor %}
+    </div>
+    
+{% endblock content %}

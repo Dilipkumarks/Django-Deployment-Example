@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Medium Style Editor -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href=" {% static 'css/blog.css' %} ">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Gelasio|Merriweather&display=swap" rel="stylesheet">
+    <title>Blog</title>
+
+</head>
+<body class="loader"  >
+    <!-- Navbar -->
+    <nav class="navbar loaderback navbar-expand-md bg-light navbar-fixed-top">
+       <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand bigbrand" href=" {% url 'post_list' %} ">My Blog</a></li>
+                <li><a class="nav-link" href=" {% url 'about' %} ">About</a></li>
+                <li><a class="nav-link" href="https://www.github.com">Github</a></li>
+                <li><a class="nav-link" href="https://www.pythonanywhere.com/">PythonAnywhere</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                
+                {% if user.is_authenticated %}
+                    <li>
+                        <a class="nav-link" href=" {% url 'post_new' %} "><img src="{% static 'images/Plus-48.png' %}"height="30" width="30" >New</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=" {% url 'post_draft_list' %} "><img src="{% static 'images/Draft-64.png' %}"height="30" width="30" >Drafts</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href=" {% url 'logout' %}?next={% url 'post_list' %} "><img src="{% static 'images/Account Logout-64.png' %}"height="30" width="30" >
+                            Logout</a>
+                    </li>
+                    <li>
+                        <a class="nav-link">Welcome: {{user.username}}
+                            {% if user.is_superuser %}
+                                <img src="{% static 'images/Administrator-64.png' %}"height="30" width="30" >
+                            {% else %}
+                                <img src="{% static 'images/User-64.png' %}"height="30" width="30" >
+                            {% endif %}
+                                
+                        </a>
+                    </li>
+                 {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a class="nav-link" href=" {% url 'register' %}">
+                                <img src="{% static 'images/Add User-64.png' %}"height="30" width="30" >
+                                Register
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{% url 'login' %}">
+                                <img src="{% static 'images/Login Lock Refresh-64.png' %}"height="30" width="30" > Login
+                            </a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <!-- content Block -->
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog_posts">
+                    {% block content %}
+                        
+                    {% endblock content %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
